@@ -359,4 +359,4 @@ ALTER TABLE table_name
 ALTER COLUMN  column_name Type datatype;
 ```
 
-
+<h1 align="center"> Thank You </h1>
