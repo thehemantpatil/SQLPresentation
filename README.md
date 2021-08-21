@@ -11,11 +11,13 @@ for ex:
 |----|------|----------|------|
 | 1  | ASUS | 10       | 50000|
 | 2 | HP |  15       | 50000| 
-<br>
+
+
 ## Command-line Utilities in PostgreSQL
+
 | Commands | Description|
-|---       |---         |
-|   \l       |Enlisting the available databases|
+|---|---|
+|   \l  |Enlisting the available databases|
 | \dt | Enlisting the available tables in the current database|
 | \c |Connecting to another database.|
 | \d tablename|Describing a particular table |
