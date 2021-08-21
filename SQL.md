@@ -12,6 +12,21 @@ for ex:
 | 1  | ASUS | 10       | 50000|
 | 2 | HP |  15       | 50000| 
 <br>
+## Command-line Utilities in PostgreSQL
+| Commands | Description|
+|---       |---         |
+|   \l       |Enlisting the available databases|
+| \dt | Enlisting the available tables in the current database|
+| \c |Connecting to another database.|
+| \d tablename|Describing a particular table |
+| \g | Seeing the previously executed command |
+| \h DROP TABLE | Knowing the syntaxes of PostgreSQL statements|
+| \timing |  Knowing the execution times of queries. Start with this command.|
+| \\? | Enlisting all the available commands.|
+| SELECT version(); |Knowing the version of PostgreSQL
+
+
+
 
 ## SQL Queries
 ---
@@ -38,8 +53,14 @@ SELECT DISTINCT columnname FROM tablename;
 ```
 
 ##### Questions:
-1. Find the name of each product.
+1. Retrive the name of each product.
+```sql
+SELECT name FROM inv.products
+```
 2. Retrive all the data from table.
+```sql
+SELECT * FROM inv.table
+```
 
 ### Queries with constraints :
 #### 1. WHERE clause
@@ -67,18 +88,41 @@ WHERE condition
 
 ##### Questions :- 
 - Find out the price of Asus.
+```sql
+ SELECT name, price 
+ FROM inv.products
+ where name like 'Asus';
+```
 - Find out total sale for a date '20-08-2021'.
+```sql
+ SELECT * from inv.sales
+ WHERE CAST(time as varchar) like '2021-08-20 %';
+
+```
 - Find out all the product in price range from 30000 to 80000.
+```sql
+ SELECT name,price from inv.products
+ WHERE price>=30000 
+       and
+       price<=80000;
+ ```
 
 #### 2. ORDER BY clause.
 - To sort the result in ascending or descending order.
+
 ```sql
 SELECT columname
 FROM mytable
 ORDER BY columname ASC/DESC;
 ```
+
 ##### Questions :-
 - Sort all the product by price(ASC and DESC both)
+```sql
+SELECT name,price
+FROM inv.products
+ORDER BY price ASC/DESC;
+```
 
 #### 3. LIMIT clause and  OFFSET clause
 - The **LIMIT** is used to reduce the number of rows to return. 
@@ -91,7 +135,19 @@ LIMIT num_limit OFFSET num_offset;
 ```
 ##### Questions :-
 - Find out the most expensive product.
+```sql
+SELECT name,price
+FROM inv.products
+ORDER BY price DESC
+LIMIT 1;
+```
 - Find out 2nd and 3rd most expensive product.
+```sql
+SELECT name,price
+FROM inv.products
+ORDER BY price DESC
+LIMIT 2 OFFSET 2;
+```
 
 #### 4. FETCH clause
 - The FETCH clause is functionally equivalent to the LIMIT clause.
@@ -123,8 +179,19 @@ ON table1.column_name = table2.column_name;
 ```
 ##### Questions :-
 - Perform inner join on inv.products and inv.sales.
+```sql
+SELECT *
+FROM inv.products
+INNER JOIN inv.sales
+ON inv.products.id = inv.sales.pid;
+```
 - Find out sales for each product.
-
+```sql
+SELECT name,inv.sales.sales_quantity,inv.sales.time
+FROM inv.products
+INNER JOIN inv.sales
+ON inv.products.id = inv.sales.pid;
+```
 #### 2. LEFT JOIN
 The LEFT JOIN keyword returns all records from the left table (table1), and the matching records from the right table (table2). The result is nulll records from the right side, if there is no match.
 ```sql
@@ -135,6 +202,13 @@ ON table1.column_name = table2.column_name;
 ```
 ##### Questions :-
 - Find out the unsold products.
+```sql
+SELECT name 
+FROM  inv.products
+LEFT JOIN inv.sales
+ON inv.products.id = inv.sales.pid
+WHERE pid is null;
+```
 
 #### 3. RIGHT JOIN
 The RIGHT JOIN keyword returns all records from the right table (table2), and the matching records from the left table (table1). The result is null records from the left side, if there is no match.
